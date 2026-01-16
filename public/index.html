@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pragotron PKP (split-flap)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="chrome">
+    <header class="hdr">
+      <div class="hdr-left">
+        <div class="hdr-station" id="station">KRAKÓW GŁÓWNY</div>
+        <div class="hdr-sub">
+          <span id="modeLabel">ODJAZDY</span>
+          <span class="sep">•</span>
+          <span id="filterLabel">Wszystkie</span>
+        </div>
+      </div>
+      <div class="hdr-right">
+        <div class="hdr-clock" id="clock">--:--</div>
+        <div class="hdr-meta" id="meta">—</div>
+      </div>
+    </header>
+
+    <main class="board">
+      <div class="labels">
+        <div>GODZ</div><div>KIERUNEK</div><div>POCIĄG</div><div>PERON</div><div>STATUS</div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </main>
+
+    <footer class="ftr">
+      <div class="note" id="note">
+        [O] Opcje • [D] Odjazdy • [A] Przyjazdy • [Space] Następna strona • [N] Noc • [K] Kiosk • [S] Dźwięk • [Enter] Fullscreen
+      </div>
+    </footer>
+  </div>
+
+  <div class="panel" id="panel" aria-hidden="true">
+    <div class="panel-card">
+      <div class="panel-title">Opcje pragotronu PKP</div>
+
+      <div class="panel-grid">
+        <label class="opt"><span>Stacja</span><input id="optStation" placeholder="np. Krakow Glowny"/></label>
+        <label class="opt"><span>Tryb</span>
+          <select id="optMode"><option value="departures">Odjazdy</option><option value="arrivals">Przyjazdy</option></select>
+        </label>
+
+        <label class="opt"><span>Filtr (tekst)</span><input id="optFilter" placeholder="IC, TLK, REG, WARSZAWA..."/></label>
+        <label class="opt"><span>Wierszy na tablicy</span><input id="optRows" type="number" min="5" max="20" value="10"/></label>
+
+        <label class="opt"><span>Strona (1..)</span><input id="optPage" type="number" min="1" value="1"/></label>
+        <label class="opt"><span>Auto-rotacja stron (sek., 0=off)</span><input id="optRotateSec" type="number" min="0" max="60" value="8"/></label>
+
+        <label class="opt"><span>Odświeżanie API (sek.)</span><input id="optRefreshSec" type="number" min="5" max="300" value="15"/></label>
+        <label class="opt"><span>Tryb klapek</span>
+          <select id="optCharMode"><option value="step">Znak-po-znaku (alfabet)</option><option value="direct">Szybko (na docelowy)</option></select>
+        </label>
+
+        <label class="opt"><span>Tempo flipu (ms)</span><input id="optFlipMs" type="number" min="60" max="350" value="140"/></label>
+        <label class="opt"><span>Opóźnienie łańcuchowe (ms)</span><input id="optStaggerMs" type="number" min="0" max="60" value="14"/></label>
+
+        <label class="opt"><span>Po odjeździe: grace (sek.)</span><input id="optGraceSec" type="number" min="0" max="120" value="15"/></label>
+        <label class="opt checkbox"><input id="optSweepAfterDepart" type="checkbox" checked /><span>Przewiń po odjeździe + dolny rząd czarny</span></label>
+
+        <label class="opt checkbox"><input id="optShowBlanks" type="checkbox" checked /><span>Puste klapki = czarne (bez glifu)</span></label>
+        <label class="opt checkbox"><input id="optSound" type="checkbox" /><span>Dźwięk “klap”</span></label>
+
+        <label class="opt checkbox"><input id="optOvershoot" type="checkbox" checked /><span>Overshoot (nadkręcenie)</span></label>
+        <label class="opt"><span>Overshoot chance (0..1)</span><input id="optOvershootChance" type="number" min="0" max="1" step="0.01" value="0.08"/></label>
+
+        <label class="opt checkbox"><input id="optSweepAllOnDepart" type="checkbox" checked /><span>Sweep-ALL po odjeździe</span></label>
+        <label class="opt checkbox"><input id="optSweepAllOnUpdate" type="checkbox" /><span>Sweep-ALL przy aktualizacji</span></label>
+
+        <label class="opt"><span>Sweep speed (ms)</span><input id="optSweepSpeedMs" type="number" min="5" max="80" value="28"/></label>
+        <label class="opt"><span>Jasność (0.6..1.2)</span><input id="optBrightness" type="number" min="0.6" max="1.2" step="0.01" value="1.0"/></label>
+
+        <label class="opt checkbox"><input id="optNight" type="checkbox" /><span>Tryb nocny</span></label>
+        <label class="opt checkbox"><input id="optKiosk" type="checkbox" checked /><span>Tryb kiosk</span></label>
+      </div>
+
+      <div class="panel-actions">
+        <button id="btnClose">Zamknij</button>
+        <button class="primary" id="btnApply">Zastosuj</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
